@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Counter {
+    uint256 public count;
+
+    // Increment count by 1
+    function inc() external {
+        count += 1;
+    }
+
+    // Decrement count by 1
+    function dec() external {
+        // Solidity 0.8+ throws error on underflow automatically
+        count -= 1;
+    }
+}
