@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract EventTicket {
+    address public owner;
+    uint public ticketPrice;
+    uint public totalTickets;
+    uint public ticketsSold;
+
+    mapping(address => uint) public ticketCount;
+
+    constructor(uint _ticketPrice, uint _totalTickets) {
+        owner = msg.sender;
+        ticketPrice = _ticketPrice;
+        totalTickets = _totalTickets;
+    }
+
+    function buyTicket(uint _quantity) external payable {
+        require(ticketsSold + _quantity <= totalTickets, "Not enough tickets left");
+        require(msg.value >= ticketPrice * _quantity, "Not enough Ether sent");
+
+        ticketCount[msg.sender] += _quantity;
+        ticketsSold += _quantity;
+    }
+
+    function withdraw() external {
+        require(msg.sender == owner, "Only owner can withdraw");
+        payable(owner).transfer(address(this).balance);
+    }
+}
