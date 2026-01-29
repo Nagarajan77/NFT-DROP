@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract EtherWallet {
+    address payable public owner;
+
+    constructor() {
+        owner = payable(msg.sender);
+    }
+
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Withdraw specific amount to owner
+    function withdraw(uint _amount) external {
+        require(msg.sender == owner, "Only owner can withdraw");
+        
+        // Transfer returns a boolean, simpler than call for basic wallets
+        payable(msg.sender).transfer(_amount);
+    }
+
+    // Get contract balance
+    function getBalance() external view returns (uint) {
+        return address(this).balance;
+    }
+}
