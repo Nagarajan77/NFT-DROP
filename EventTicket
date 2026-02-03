@@ -28,3 +28,25 @@ contract EventTicket {
         payable(owner).transfer(address(this).balance);
     }
 }
+
+
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract SubscriptionNFT is ERC721 {
+    mapping(uint256 => uint256) public expiryTime;
+
+    constructor() ERC721("SubPass", "SUB") {}
+
+    function mintOneYearPass(uint256 tokenId) public {
+        _safeMint(msg.sender, tokenId);
+        expiryTime[tokenId] = block.timestamp + 365 days;
+    }
+
+    function isValid(uint256 tokenId) public view returns (bool) {
+        return block.timestamp < expiryTime[tokenId];
+    }
+}
