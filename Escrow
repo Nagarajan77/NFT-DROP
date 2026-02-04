@@ -30,20 +30,3 @@ contract Escrow {
     }
 }
 
-
-
-    function deposit() payable public {
-        require(msg.sender == payer, "Sender must be the payer");
-        require(address(this).balance <= amount, "Cant deposit more than agreed");
-    }
-
-    function release() public {
-        require(msg.sender == lawyer, "Only lawyer can release funds");
-        require(address(this).balance == amount, "Cannot release incomplete funds");
-        payee.transfer(amount);
-    }
-    
-    function balanceOf() view public returns(uint) {
-        return address(this).balance;
-    }
-}
