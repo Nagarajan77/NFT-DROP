@@ -15,3 +15,12 @@ contract Counter {
         count -= 1;
     }
 }
+
+
+
+    // Decrement count by 1
+    function mul() external {
+        // Solidity 0.8+ throws error on underflow automatically
+        count *= 1;
+    }
+}
